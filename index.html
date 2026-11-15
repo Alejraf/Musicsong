@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cabina Musical</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #eceef3; --surface: #ffffff; --surface-2: #e2e5ec; --ink: #15171f; --ink-soft: #5a5f70;
+  --line: #d3d7e0; --accent: #4f5df0; --accent-ink: #ffffff; --gold: #b7791f;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1016; --surface: #171a23; --surface-2: #232736; --ink: #eef0f7; --ink-soft: #9aa0b4;
+    --line: #2a2f40; --accent: #8c97ff; --accent-ink: #0e1016; --gold: #f0b84a; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding: 24px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px));
+}
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; letter-spacing: -0.02em; margin: 0; }
+h2 { font-family: var(--font-display); font-weight: 500; font-size: 1.05rem; margin: 0; }
+.sub { color: var(--ink-soft); margin: 4px 0 0; max-width: 60ch; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible, label:focus-within, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.top-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.pill { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-weight: 600; font-size: 0.85rem; }
+.pill:hover { background: var(--surface-2); }
+.pill.gold { border-color: var(--gold); color: var(--gold); }
+
+.ad { min-height: 90px; border: 1px dashed var(--line); border-radius: 10px; display: grid; place-items: center; overflow: hidden; padding: 4px; color: var(--ink-soft); position: relative; }
+.ad .tag { position: absolute; top: 4px; left: 8px; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.ad .ph { font-family: var(--font-mono); font-size: 0.8rem; text-align: center; padding: 14px 8px; }
+
+.deck, .find { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.now { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.now .t { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; overflow-wrap: anywhere; }
+.now .a { color: var(--ink-soft); overflow-wrap: anywhere; }
+canvas { width: 100%; height: 84px; display: block; border-radius: 8px; background: var(--surface-2); }
+.yt { width: 100%; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 8px; overflow: hidden; background: #000; }
+.yt iframe { width: 100%; height: 100%; border: 0; display: block; }
+.status { margin: 0; font-size: 0.85rem; color: var(--ink-soft); min-height: 1.3em; }
+.warn { background: var(--surface-2); border-radius: 8px; padding: 10px 12px; font-size: 0.85rem; margin: 0; }
+
+.seek { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
+.time { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 24px; background: transparent; margin: 0; min-width: 0; }
+input[type="range"]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--accent) var(--fill, 0%), var(--surface-2) var(--fill, 0%)); }
+input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--surface-2); }
+input[type="range"]::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--accent); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 0; margin-top: -6px; }
+input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 0; }
+
+.controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.transport { display: flex; align-items: center; gap: 8px; }
+.icon-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; padding: 0; position: relative; }
+.icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
+.icon-btn:hover { background: var(--surface-2); }
+.icon-btn.play { width: 56px; height: 56px; background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.icon-btn.play:hover { filter: brightness(1.08); background: var(--accent); }
+.icon-btn[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+.icon-btn .badge { position: absolute; font-family: var(--font-mono); font-size: 9px; transform: translate(9px, 9px); }
+.vol { display: flex; align-items: center; gap: 8px; width: 150px; max-width: 100%; }
+.vol svg { width: 18px; height: 18px; fill: var(--ink-soft); flex: none; }
+
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+.drop { border: 1.5px dashed var(--line); border-radius: 12px; padding: 4px; transition: border-color .15s, background .15s; }
+.drop.over { border-color: var(--accent); background: var(--surface-2); }
+ul { list-style: none; margin: 0; padding: 0; }
+.queue { display: flex; flex-direction: column; }
+.queue li { min-width: 0; }
+.row { width: 100%; display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 10px; text-align: left; background: transparent; border: 0; padding: 10px 12px; border-radius: 8px; }
+.row:hover { background: var(--surface-2); }
+.row .n { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-soft); text-align: center; }
+.row .meta { min-width: 0; display: flex; flex-direction: column; }
+.row .meta b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .meta span { color: var(--ink-soft); font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .d { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-soft); }
+li.current .row { background: var(--surface-2); }
+li.current .row .n, li.current .row .meta b { color: var(--accent); }
+.empty { padding: 28px 16px; text-align: center; color: var(--ink-soft); }
+
+.field { display: flex; gap: 8px; flex-wrap: wrap; }
+.field input[type="text"] { flex: 1 1 220px; min-width: 0; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; }
+.note { color: var(--ink-soft); font-size: 0.85rem; margin: 0; max-width: 65ch; }
+.results { display: flex; flex-direction: column; gap: 8px; }
+.res { display: grid; grid-template-columns: 96px 1fr auto; gap: 12px; align-items: center; }
+.res img { width: 96px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; background: var(--surface-2); }
+.res .meta { min-width: 0; }
+.res .meta b { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.res .meta span { color: var(--ink-soft); font-size: 0.85rem; }
+.res .acts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 520px) { .res { grid-template-columns: 72px 1fr; } .res img { width: 72px; } .res .acts { grid-column: 1 / -1; justify-content: flex-start; } }
+
+dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); max-width: min(460px, calc(100vw - 32px)); padding: 20px; }
+dialog::backdrop { background: rgba(0, 0, 0, 0.5); }
+dialog h2 { font-size: 1.3rem; margin-bottom: 8px; }
+dialog ul { list-style: disc; padding-left: 20px; margin: 10px 0; display: flex; flex-direction: column; gap: 4px; }
+.price { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin: 8px 0; }
+.dlg-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+dialog .field { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Cabina Musical</h1>
+      <p class="sub" data-i18n="subtitle"></p>
+    </div>
+    <div class="top-actions">
+      <button class="pill" id="langBtn" type="button" aria-label="Idioma / Idioma">PT · ES</button>
+      <button class="pill gold" id="premiumBtn" type="button"></button>
+    </div>
+  </header>
+
+  <div class="ad" id="adTop" role="complementary"></div>
+
+  <section class="deck" aria-labelledby="h-player">
+    <h2 id="h-player" hidden data-i18n="player"></h2>
+    <div class="now">
+      <div class="t" id="title"></div>
+      <div class="a" id="artist"></div>
+    </div>
+    <canvas id="viz" aria-hidden="true"></canvas>
+    <div class="yt" id="ytWrap" hidden><div id="ytPlayer"></div></div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <div class="seek">
+      <span class="time" id="cur">0:00</span>
+      <input type="range" id="seek" min="0" max="1000" value="0" disabled>
+      <span class="time" id="dur">0:00</span>
+    </div>
+    <div class="controls">
+      <div class="transport">
+        <button class="icon-btn" id="shuffle" aria-pressed="false" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5l-2-2-4.6 4.6-1.4-1.4L17.6 4.6 16 3zM3 7h4.6l9 10H21v2h-5.4l-9-10H3V7zm0 10h3.6l2-2.3 1.3 1.5L8 19H3v-2z"/></svg>
+        </button>
+        <button class="icon-btn" id="prev" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2v12H6zM9.5 12L18 6v12z"/></svg></button>
+        <button class="icon-btn play" id="play" type="button"><svg viewBox="0 0 24 24" id="playIcon" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+        <button class="icon-btn" id="next" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 6h2v12h-2zM6 18V6l8.5 6z"/></svg></button>
+        <button class="icon-btn" id="repeat" aria-pressed="false" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+          <span class="badge" id="repBadge" hidden>1</span>
+        </button>
+      </div>
+      <div class="vol">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8v8a4.5 4.5 0 002.5-4z"/></svg>
+        <input type="range" id="volume" min="0" max="100" value="80">
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-queue" style="display:flex;flex-direction:column;gap:12px">
+    <div class="bar">
+      <h2 id="h-queue"><span data-i18n="queue"></span> <span class="time" id="count"></span></h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <label class="btn primary" for="files" data-i18n="addFiles"></label>
+        <button class="btn" id="clear" type="button" data-i18n="clear"></button>
+      </div>
+      <input type="file" id="files" accept="audio/*" multiple>
+    </div>
+    <div class="drop" id="drop"><ul class="queue" id="queue"></ul></div>
+    <p class="note" data-i18n="localNote"></p>
+  </section>
+
+  <section class="find" aria-labelledby="h-find">
+    <h2 id="h-find" data-i18n="findTitle"></h2>
+    <p class="warn" id="fileWarn" hidden data-i18n="fileWarn"></p>
+    <form class="field" id="findForm">
+      <input type="text" id="q" autocomplete="off">
+      <button class="btn primary" type="submit" data-i18n="searchAdd"></button>
+    </form>
+    <p class="note" id="findNote"></p>
+    <div class="results" id="results"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn" id="ytLink" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" data-i18n="openYT"></a>
+      <a class="btn" id="spLink" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" data-i18n="openSP"></a>
+    </div>
+  </section>
+
+  <div class="ad" id="adBottom" role="complementary"></div>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <h2 id="dlgTitle" data-i18n="premTitle"></h2>
+  <div id="dlgFree">
+    <ul>
+      <li data-i18n="premB1"></li>
+      <li data-i18n="premB2"></li>
+    </ul>
+    <div class="price" id="price"></div>
+    <div class="dlg-actions">
+      <a class="btn primary" id="buy" href="#" target="_blank" rel="noopener noreferrer" data-i18n="premBuy"></a>
+    </div>
+    <p class="note" id="buyNote"></p>
+    <form class="field" id="licForm">
+      <input type="text" id="licKey" autocomplete="off">
+      <button class="btn" type="submit" data-i18n="premActivate"></button>
+    </form>
+    <p class="status" id="licMsg" role="status" aria-live="polite"></p>
+  </div>
+  <div id="dlgPaid" hidden>
+    <p data-i18n="premActive"></p>
+    <div class="dlg-actions"><button class="btn" id="deactivate" type="button" data-i18n="premDeactivate"></button></div>
+  </div>
+  <div class="dlg-actions"><button class="btn" id="dlgClose" type="button" data-i18n="close"></button></div>
+</dialog>
+
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO / CONFIGURACIÓN — edite apenas este bloco
+   ===================================================================== */
+var CONFIG = {
+  // YouTube Data API v3 (Google Cloud). Se estiver vazio, só dá para colar links.
+  YT_API_KEY: "AIzaSyC7jJKXG_GosP56S2xvQk-2AKp9rOoec0I",
+
+  // Google AdSense. Se estiver vazio, aparece um espaço reservado nos banners.
+  ADSENSE_CLIENT: "",        // exemplo: "ca-pub-0000000000000000"
+  ADSENSE_SLOT_TOP: "",      // id do bloco do banner superior
+  ADSENSE_SLOT_BOTTOM: "",   // id do bloco do banner inferior
+
+  // Premium
+  PRICE_LABEL: "R$ 9,90 / mês",  // texto mostrado no diálogo
+  CHECKOUT_URL: "",              // link de pagamento (Stripe, Mercado Pago, Hotmart...)
+  // Endereço do SEU servidor que confirma a licença. Responde JSON {"valid": true}.
+  // Sem ele, só funciona o código de teste DEMO-PREMIUM. Retire-o antes de publicar.
+  LICENSE_VERIFY_URL: "",
+  DEMO_CODE: "DEMO-PREMIUM"
+};
+
+/* ---------- textos / textos ---------- */
+var I18N = {
+  pt: {
+    subtitle: "Toque suas músicas, cole links do YouTube e encontre seu artista favorito.",
+    player: "Player", nothing: "Nada tocando", addHint: "Adicione músicas para começar",
+    queue: "Fila", addFiles: "Adicionar arquivos de áudio", clear: "Limpar", empty: "A fila está vazia. Adicione arquivos ou links do YouTube.",
+    localNote: "Arraste aqui seus MP3, M4A, WAV ou OGG. Nomeie como \"Artista - Música.mp3\" para separar os nomes. Os arquivos ficam no seu navegador e não são enviados a lugar nenhum.",
+    findTitle: "Encontre seu artista favorito", searchAdd: "Buscar / adicionar",
+    phKey: "Nome do artista, da música ou link do YouTube", phNoKey: "Cole um link do YouTube",
+    noteKey: "Digite o nome de um artista para buscar vídeos que podem ser incorporados, ou cole um link.",
+    noteNoKey: "Sem chave da API do YouTube, só dá para colar links. Use o botão abaixo para buscar no YouTube e copie o link do vídeo.",
+    openYT: "Buscar no YouTube", openSP: "Buscar no Spotify",
+    add: "Adicionar", playNow: "Tocar agora", added: "Adicionado à fila", noResults: "Nenhum resultado.", searchErr: "Não foi possível buscar. Verifique a chave da API.",
+    badLink: "Isso não parece um link do YouTube. Cole o link do vídeo.", loadingTitle: "Vídeo do YouTube",
+    ytBlocked: "Este vídeo não permite reprodução em outros sites. Passando ao próximo.",
+    ytOrigin: "O YouTube recusou a reprodução. Abra esta página por um servidor (http://localhost ou seu site), não direto do arquivo.",
+    fileWarn: "Você abriu o arquivo direto do computador. O YouTube só toca em páginas servidas por http(s). Rode `python3 -m http.server` na pasta e abra http://localhost:8000.",
+    ad: "Publicidade", adPh: "Espaço para anúncio · banner responsivo",
+    premium: "Premium", premiumOn: "★ Premium ativo",
+    premTitle: "Cabina Premium", premB1: "Remove todos os banners de publicidade", premB2: "Apoia o desenvolvimento do app",
+    premBuy: "Assinar Premium", premActivate: "Ativar", premKey: "Código de licença", premNoCheckout: "Configure CHECKOUT_URL no código para habilitar o pagamento.",
+    premOk: "Premium ativado. Obrigado!", premBad: "Código inválido.", premErr: "Não foi possível verificar agora. Tente de novo.",
+    premActive: "Seu Premium está ativo. Os banners estão desativados.", premDeactivate: "Desativar neste navegador", close: "Fechar",
+    shuffle: "Aleatório", prev: "Anterior", next: "Próxima", play: "Tocar", pause: "Pausar", vol: "Volume", seek: "Posição",
+    repeat: "Repetir", repOff: "desligado", repAll: "toda a fila", repOne: "uma música", demo: "Faixa de demonstração"
+  },
+  es: {
+    subtitle: "Reproduce tus canciones, pega enlaces de YouTube y encuentra a tu artista favorito.",
+    player: "Reproductor", nothing: "Nada en reproducción", addHint: "Añade canciones para empezar",
+    queue: "Cola", addFiles: "Añadir archivos de audio", clear: "Vaciar", empty: "La cola está vacía. Añade archivos o enlaces de YouTube.",
+    localNote: "Arrastra aquí tus MP3, M4A, WAV u OGG. Nómbralos \"Artista - Canción.mp3\" para separar los nombres. Los archivos se quedan en tu navegador y no se suben a ningún sitio.",
+    findTitle: "Busca a tu artista favorito", searchAdd: "Buscar / añadir",
+    phKey: "Nombre del artista, de la canción o enlace de YouTube", phNoKey: "Pega un enlace de YouTube",
+    noteKey: "Escribe el nombre de un artista para buscar videos que se puedan incrustar, o pega un enlace.",
+    noteNoKey: "Sin clave de la API de YouTube, solo se pueden pegar enlaces. Usa el botón de abajo para buscar en YouTube y copia el enlace del video.",
+    openYT: "Buscar en YouTube", openSP: "Buscar en Spotify",
+    add: "Añadir", playNow: "Reproducir ya", added: "Añadido a la cola", noResults: "Sin resultados.", searchErr: "No se pudo buscar. Revisa la clave de la API.",
+    badLink: "Eso no parece un enlace de YouTube. Pega el enlace del video.", loadingTitle: "Video de YouTube",
+    ytBlocked: "Este video no permite la reproducción en otros sitios. Pasando al siguiente.",
+    ytOrigin: "YouTube rechazó la reproducción. Abre esta página desde un servidor (http://localhost o tu sitio), no directo desde el archivo.",
+    fileWarn: "Abriste el archivo directo desde tu computadora. YouTube solo reproduce en páginas servidas por http(s). Ejecuta `python3 -m http.server` en la carpeta y abre http://localhost:8000.",
+    ad: "
