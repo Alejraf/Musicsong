@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Vibra</title>
-<meta name="description" content="Aprende con vídeos: listas curadas, notas con marca de tiempo y progreso.">
+<meta name="description" content="Aprende con vídeos: rutas, notas y progreso. / Aprenda com vídeos: rotas, notas e progresso.">
 <meta name="theme-color" content="#1a1030">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -27,11 +27,49 @@
     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
   main{max-width:720px;margin:0 auto;padding:12px 14px 40px}
-  header{display:flex;align-items:center;gap:12px;padding:6px 0 14px}
+  header{display:flex;align-items:center;gap:12px;padding:6px 0 12px}
   header img{width:44px;height:44px;border-radius:12px}
+  header .ttl{flex:1;min-width:0}
   header h1{font-size:1.4rem;margin:0}
   header p{margin:0;color:var(--muted);font-size:.85rem}
+  .lang{display:flex;gap:4px;flex:none}
+  .lang button{padding:6px 10px;font-size:.8rem;font-weight:700;border:1px solid var(--line);background:transparent}
+  .lang button.on{background:var(--accent2);color:#12202b;border-color:var(--accent2)}
   h2{font-size:1rem;margin:0 0 8px;color:#f9a8d4}
+
+  button{font:inherit;color:var(--text);background:var(--card2);border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
+  button:active{transform:scale(.97)}
+  button.primary{background:var(--accent);color:#fff;font-weight:600}
+  button.ghost{background:transparent;border:1px solid var(--line)}
+  button.icon{padding:8px 10px}
+  button:disabled{opacity:.4}
+  .row{display:flex;gap:8px;align-items:center}
+  .muted{color:var(--muted);font-size:.9rem}
+
+  /* Hábito */
+  .habit{background:var(--card);border-radius:14px;padding:12px;margin:0 0 12px}
+  .resume{margin-bottom:10px}
+  .resume button{width:100%;text-align:left;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .hrow .hl{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .hrow strong{font-size:.95rem}
+  .hrow .streak{font-size:.85rem;color:var(--accent2)}
+  .hrow button{padding:6px 10px;font-size:.8rem}
+
+  /* Rutas */
+  .routes{margin:0 0 14px}
+  .routes .sub{margin:-4px 0 8px}
+  .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;padding:6px 12px;font-size:.85rem;background:var(--card);border:1px solid var(--line)}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .rlist{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#3d2e6b transparent}
+  .rcard{flex:none;width:210px;background:var(--card);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;scroll-snap-align:start}
+  .rcard .rtop{font-size:1.8rem;line-height:1}
+  .rcard .rtitle{font-weight:700}
+  .rcard .rdesc{font-size:.8rem;color:var(--muted);flex:1}
+  .rcard .rmeta{font-size:.75rem;color:var(--accent2)}
+  .rcard button{width:100%}
 
   /* Reproductor oficial de YouTube: siempre visible, sin recortes ni ocultamiento */
   .player-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
@@ -39,16 +77,9 @@
   .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;
     padding:20px;color:var(--muted);background:linear-gradient(135deg,#2a1a52,#3b1d57)}
   .nowplaying{margin:10px 2px 0;min-height:1.4em;font-weight:600}
+  .nowplaying a{font-weight:400;font-size:.8rem;color:var(--accent2);margin-left:8px;white-space:nowrap}
   .hint{color:var(--muted);font-size:.8rem;margin:2px 2px 0}
-
-  .row{display:flex;gap:8px;align-items:center}
   .controls{margin:12px 0}
-  button{font:inherit;color:var(--text);background:var(--card2);border:0;border-radius:10px;padding:10px 14px;cursor:pointer}
-  button:active{transform:scale(.97)}
-  button.primary{background:var(--accent);color:#fff;font-weight:600}
-  button.ghost{background:transparent;border:1px solid var(--line)}
-  button.icon{padding:8px 10px}
-  button:disabled{opacity:.4}
 
   /* Notas con marca de tiempo */
   .notes{background:var(--card);border-radius:14px;padding:12px;margin:6px 0 14px}
@@ -63,7 +94,6 @@
   .note .time{flex:none;background:#12202b;color:var(--accent2);font-weight:700;border-radius:8px;padding:4px 9px;font-variant-numeric:tabular-nums}
   .note .txt{flex:1;min-width:0;white-space:pre-wrap;word-break:break-word;font-size:.92rem;padding-top:2px}
   .note .x{flex:none;padding:2px 8px;background:transparent;color:var(--muted)}
-  .muted{color:var(--muted);font-size:.9rem}
 
   .add{margin:14px 0}
   .add input{flex:1;min-width:0;font:inherit;color:var(--text);background:var(--card);border:1px solid var(--line);
@@ -117,54 +147,76 @@
 <main>
   <header>
     <img src="icon.svg" alt="Logo de Vibra">
-    <div>
+    <div class="ttl">
       <h1>Vibra</h1>
-      <p>Aprende con vídeos: listas, notas y progreso</p>
+      <p data-i18n="tagline"></p>
+    </div>
+    <div class="lang" role="group" aria-label="Idioma / Idioma">
+      <button id="langEs" type="button">ES</button>
+      <button id="langPt" type="button">PT</button>
     </div>
   </header>
 
-  <!-- Reproductor oficial (YouTube IFrame Player API). No se oculta, no se recorta y no se modifican sus controles. -->
-  <section class="player-wrap" aria-label="Reproductor de vídeo">
-    <div id="player"></div>
-    <div class="placeholder" id="placeholder">Pega un enlace de YouTube abajo y toca el vídeo para reproducirlo.</div>
+  <!-- Hábito: continuar, minutos de hoy y racha -->
+  <section class="habit" id="habitBox">
+    <div class="resume" id="resume" hidden><button id="resumeBtn" class="primary" type="button"></button></div>
+    <div class="hrow">
+      <div class="hl"><strong id="habToday"></strong><span class="streak" id="habStreak"></span></div>
+      <button id="habGoal" class="ghost" type="button"></button>
+    </div>
+    <div class="progress"><i id="habBar"></i></div>
   </section>
-  <div class="nowplaying" id="nowplaying"></div>
-  <div class="hint">La reproducción se pausa automáticamente cuando sales de la app o apagas la pantalla.</div>
+
+  <!-- Rutas para empezar sin buscar nada -->
+  <section class="routes" id="routesBox">
+    <h2 data-i18n="routesTitle"></h2>
+    <div class="muted sub" data-i18n="routesSub"></div>
+    <div class="chips" id="chips"></div>
+    <div class="rlist" id="routeList"></div>
+  </section>
+
+  <!-- Reproductor oficial (YouTube IFrame Player API). No se oculta, no se recorta y no se modifican sus controles. -->
+  <section class="player-wrap" id="playerSection" data-i18n-aria="playerAria">
+    <div id="player"></div>
+    <div class="placeholder" id="placeholder" data-i18n="placeholder"></div>
+  </section>
+  <div class="nowplaying"><span id="npTitle"></span><a id="ytLink" href="#" target="_blank" rel="noopener" hidden data-i18n="openYT"></a></div>
+  <div class="hint" data-i18n="hintPause"></div>
 
   <div class="row controls">
-    <button id="prev" class="icon" aria-label="Anterior" disabled>⏮ Anterior</button>
-    <button id="next" class="icon" aria-label="Siguiente" disabled>Siguiente ⏭</button>
+    <button id="prev" class="icon" disabled data-i18n="prev"></button>
+    <button id="next" class="icon" disabled data-i18n="next"></button>
   </div>
 
   <!-- Notas con marca de tiempo -->
-  <section class="notes" aria-label="Notas del vídeo">
+  <section class="notes">
     <div class="head">
-      <h2>Notas del vídeo</h2>
-      <button id="addNote" class="primary" disabled>＋ Anotar aquí</button>
+      <h2 data-i18n="notesTitle"></h2>
+      <button id="addNote" class="primary" disabled data-i18n="addNote"></button>
     </div>
     <div class="noteform" id="noteForm" hidden>
-      <div class="muted">Nota en el minuto <strong id="noteTime">0:00</strong></div>
-      <textarea id="noteText" maxlength="500" placeholder="Escribe tu idea, duda o resumen…"></textarea>
+      <div class="muted"><span data-i18n="noteAtMinute"></span> <strong id="noteTime">0:00</strong></div>
+      <textarea id="noteText" maxlength="500" data-i18n-ph="notePh"></textarea>
       <div class="row">
-        <button id="noteSave" class="primary">Guardar nota</button>
-        <button id="noteCancel" class="ghost">Cancelar</button>
+        <button id="noteSave" class="primary" data-i18n="noteSave"></button>
+        <button id="noteCancel" class="ghost" data-i18n="cancel"></button>
       </div>
     </div>
     <ul class="nlist" id="notesList"></ul>
   </section>
 
   <form class="add row" id="addForm" autocomplete="off">
-    <input id="url" type="url" inputmode="url" placeholder="Pega un enlace de YouTube…" aria-label="Enlace de YouTube">
-    <button class="primary" type="submit">Añadir</button>
+    <input id="url" type="url" inputmode="url" data-i18n-ph="urlPh" data-i18n-aria="urlPh">
+    <button class="primary" type="submit" data-i18n="add"></button>
   </form>
 
   <div class="listbar">
-    <select id="listSelect" aria-label="Lista activa"></select>
-    <button id="newList" class="ghost">Nueva</button>
-    <button id="renameList" class="ghost">Renombrar</button>
-    <button id="descList" class="ghost">Descripción</button>
-    <button id="shareList" class="ghost">Compartir</button>
-    <button id="deleteList" class="ghost">Eliminar</button>
+    <select id="listSelect"></select>
+    <button id="newList" class="ghost" data-i18n="newList"></button>
+    <button id="renameList" class="ghost" data-i18n="rename"></button>
+    <button id="descList" class="ghost" data-i18n="descBtn"></button>
+    <button id="shareList" class="ghost" data-i18n="share"></button>
+    <button id="deleteList" class="ghost" data-i18n="del"></button>
   </div>
   <div class="desc" id="listDesc"></div>
   <div class="progress-box" id="progressBox" hidden>
@@ -175,48 +227,155 @@
   <ul class="tracks" id="tracks"></ul>
 
   <!-- Publicidad (solo banners, en un marco aislado). Se oculta con Premium. -->
-  <section class="ads" id="adWrap" hidden aria-label="Publicidad">
-    <div class="adlabel">Publicidad</div>
+  <section class="ads" id="adWrap" hidden>
+    <div class="adlabel" data-i18n="adLabel"></div>
     <iframe id="adFrame" title="Publicidad" scrolling="no"></iframe>
-    <button id="goPremium" class="ghost">Quitar anuncios</button>
+    <button id="goPremium" class="ghost" data-i18n="removeAds"></button>
   </section>
 
-  <section class="premium" id="premiumBox" hidden aria-label="Vibra Premium">
-    <h2>Vibra Premium · sin anuncios</h2>
-    <p class="muted">Apoya el proyecto y quita la publicidad. Ver vídeos siempre es gratis y el reproductor no cambia.</p>
-    <div class="row"><button id="payBtn" class="primary">Pagar con Mercado Pago</button></div>
-    <p class="muted">Cuando pagues recibirás un código de activación. Escríbelo aquí:</p>
+  <section class="premium" id="premiumBox" hidden>
+    <h2 data-i18n="premTitle"></h2>
+    <p class="muted" data-i18n="premText"></p>
+    <div class="row"><button id="payBtn" class="primary" data-i18n="payMp"></button></div>
+    <p class="muted" data-i18n="premCodeInfo"></p>
     <div class="row">
-      <input id="premiumCode" maxlength="100" placeholder="Código de activación" autocomplete="off" autocapitalize="off">
-      <button id="activateBtn" class="primary">Activar</button>
+      <input id="premiumCode" maxlength="100" data-i18n-ph="codePh" autocomplete="off" autocapitalize="off">
+      <button id="activateBtn" class="primary" data-i18n="activate"></button>
     </div>
-    <div><button id="premiumClose" class="ghost">Cerrar</button></div>
+    <div><button id="premiumClose" class="ghost" data-i18n="close"></button></div>
   </section>
 
   <footer>
-    <div>Vibra usa los servicios de la API de YouTube. Al usarla aceptas las
-      <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Condiciones del Servicio de YouTube</a>
-      y la <a href="http://www.google.com/policies/privacy" target="_blank" rel="noopener">Política de privacidad de Google</a>.
-      Vibra no está afiliada ni respaldada por YouTube ni por Google.</div>
+    <div><span data-i18n="f1a"></span>
+      <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener" data-i18n="f1b"></a>
+      <span data-i18n="f1c"></span>
+      <a href="http://www.google.com/policies/privacy" target="_blank" rel="noopener" data-i18n="f1d"></a>.
+      <span data-i18n="f1e"></span></div>
     <div class="links">
-      <a href="privacy.html">Política de privacidad</a>
-      <a href="#" id="wipe">Borrar mis datos</a>
+      <a href="privacy.html" data-i18n="privacyLink"></a>
+      <a href="#" id="wipe" data-i18n="wipe"></a>
     </div>
   </footer>
 </main>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script src="config.js"></script>
+<script src="rutas.js"></script>
 <script>
 (function(){
   'use strict';
   var KEY = 'vibra.v1';
+  var LKEY = 'vibra.lang';
   var ID_RE = /^[\w-]{11}$/;
+
+  /* ---------- Idiomas (español / portugués) ---------- */
+  var I18N = {
+    es:{
+      tagline:'Aprende con vídeos: rutas, notas y progreso',
+      routesTitle:'Rutas para empezar', routesSub:'Elige un tema y empieza sin buscar nada.',
+      cat_all:'Todo', cat_musica:'Música', cat_idiomas:'Idiomas', cat_fitness:'Fitness', cat_cocina:'Cocina', cat_estudio:'Estudio',
+      routeStart:'Empezar', routeContinue:'Continuar', routeVideos:'{0} vídeos', routeProgress:'{0}/{1} vistos', routeAdded:'Ruta añadida a tus listas',
+      playerAria:'Reproductor de vídeo',
+      placeholder:'Elige una ruta arriba o pega un enlace de YouTube, y toca el vídeo para reproducirlo.',
+      hintPause:'La reproducción se pausa automáticamente cuando sales de la app o apagas la pantalla.',
+      prev:'⏮ Anterior', next:'Siguiente ⏭', openYT:'Abrir en YouTube',
+      notesTitle:'Notas del vídeo', addNote:'＋ Anotar aquí', noteAtMinute:'Nota en el minuto',
+      notePh:'Escribe tu idea, duda o resumen…', noteSave:'Guardar nota', cancel:'Cancelar',
+      notesNone:'Reproduce un vídeo para añadir notas en el minuto que quieras.', notesEmpty:'Aún no hay notas en este vídeo.',
+      urlPh:'Pega un enlace de YouTube…', add:'Añadir',
+      newList:'Nueva', rename:'Renombrar', descBtn:'Descripción', share:'Compartir', del:'Eliminar',
+      adLabel:'Publicidad', removeAds:'Quitar anuncios',
+      premTitle:'Vibra Premium · sin anuncios',
+      premText:'Apoya el proyecto y quita la publicidad. Ver vídeos siempre es gratis y el reproductor no cambia.',
+      payMp:'Pagar con Mercado Pago', premCodeInfo:'Cuando pagues recibirás un código de activación. Escríbelo aquí:',
+      codePh:'Código de activación', activate:'Activar', close:'Cerrar',
+      f1a:'Vibra usa los servicios de la API de YouTube. Al usarla aceptas las', f1b:'Condiciones del Servicio de YouTube',
+      f1c:'y la', f1d:'Política de privacidad de Google', f1e:'Vibra no está afiliada ni respaldada por YouTube ni por Google.',
+      privacyLink:'Política de privacidad', wipe:'Borrar mis datos',
+      todayLbl:'Hoy: {0} / {1} min', streak1:'🔥 Racha: {0} día', streakN:'🔥 Racha: {0} días', streak0:'Empieza tu racha hoy',
+      goalBtn:'Meta: {0} min', goalPrompt:'Meta diaria en minutos (1 a 240):', goalDone:'¡Meta de hoy cumplida! 🔥',
+      resumeLbl:'▶ Continuar: {0}', resumeAt:' · en {0}', resuming:'Continuando en {0}',
+      videoDefault:'Vídeo {0}', lastVideo:'Es el último vídeo', firstVideo:'Es el primero',
+      notValid:'Ese enlace no parece de YouTube.', already:'Ya está en la lista.', added:'Añadido',
+      playFirst:'Reproduce un vídeo primero.', writeSomething:'Escribe algo en la nota.', maxNotes:'Máximo 100 notas por vídeo.', noteSaved:'Nota guardada',
+      ytError:'Este vídeo no se puede reproducir aquí. Prueba con el siguiente.',
+      emptyList:'Esta lista está vacía. Elige una ruta o pega un enlace de YouTube arriba.',
+      watched:'✓ Visto', noteOne:'nota', noteMany:'notas', seenOf:'{0} de {1} vistos',
+      defaultList:'Mi lista', newListPrompt:'Nombre de la nueva lista:', renamePrompt:'Nuevo nombre:',
+      descPrompt:'Descripción de la lista (para qué sirve, a quién ayuda, en qué orden verla):',
+      confirmDelete:'¿Eliminar la lista «{0}»?', linkCopied:'Enlace copiado', copyPrompt:'Copia este enlace:', emptyShare:'La lista está vacía.',
+      confirmWipe:'¿Borrar todas tus listas, notas y progreso de este dispositivo?', wiped:'Datos borrados',
+      importQ:'¿Importar la lista «{0}» con {1} vídeo(s)?', sharedListName:'Lista compartida',
+      payNotCfg:'El pago aún no está configurado.', writeCode:'Escribe tu código.', activateNotCfg:'La activación aún no está configurada.',
+      premiumOn:'¡Premium activado! Sin anuncios.', badCode:'Código no válido.', verifyFail:'No se pudo verificar. Intenta de nuevo.',
+      apiFail:'No se pudo cargar el reproductor. Revisa tu conexión.',
+      sharedAdded:'Añadido desde YouTube', sharedBad:'No encontré un enlace de YouTube en lo que compartiste.',
+      moveUp:'Subir', moveDown:'Bajar', removeAria:'Quitar de la lista', markSeen:'Marcar como visto', markUnseen:'Marcar como no visto',
+      goMin:'Ir al minuto {0}', delNote:'Borrar nota'
+    },
+    pt:{
+      tagline:'Aprenda com vídeos: rotas, notas e progresso',
+      routesTitle:'Rotas para começar', routesSub:'Escolha um tema e comece sem procurar nada.',
+      cat_all:'Tudo', cat_musica:'Música', cat_idiomas:'Idiomas', cat_fitness:'Fitness', cat_cocina:'Culinária', cat_estudio:'Estudos',
+      routeStart:'Começar', routeContinue:'Continuar', routeVideos:'{0} vídeos', routeProgress:'{0}/{1} assistidos', routeAdded:'Rota adicionada às suas listas',
+      playerAria:'Reprodutor de vídeo',
+      placeholder:'Escolha uma rota acima ou cole um link do YouTube e toque no vídeo para reproduzi-lo.',
+      hintPause:'A reprodução pausa automaticamente quando você sai do app ou apaga a tela.',
+      prev:'⏮ Anterior', next:'Próximo ⏭', openYT:'Abrir no YouTube',
+      notesTitle:'Notas do vídeo', addNote:'＋ Anotar aqui', noteAtMinute:'Nota no minuto',
+      notePh:'Escreva sua ideia, dúvida ou resumo…', noteSave:'Salvar nota', cancel:'Cancelar',
+      notesNone:'Reproduza um vídeo para adicionar notas no minuto que quiser.', notesEmpty:'Ainda não há notas neste vídeo.',
+      urlPh:'Cole um link do YouTube…', add:'Adicionar',
+      newList:'Nova', rename:'Renomear', descBtn:'Descrição', share:'Compartilhar', del:'Excluir',
+      adLabel:'Publicidade', removeAds:'Remover anúncios',
+      premTitle:'Vibra Premium · sem anúncios',
+      premText:'Apoie o projeto e remova a publicidade. Assistir aos vídeos é sempre grátis e o reprodutor não muda.',
+      payMp:'Pagar com Mercado Pago', premCodeInfo:'Depois de pagar, você receberá um código de ativação. Digite-o aqui:',
+      codePh:'Código de ativação', activate:'Ativar', close:'Fechar',
+      f1a:'O Vibra usa os serviços da API do YouTube. Ao usá-lo, você aceita os', f1b:'Termos de Serviço do YouTube',
+      f1c:'e a', f1d:'Política de Privacidade do Google', f1e:'O Vibra não é afiliado nem endossado pelo YouTube ou pelo Google.',
+      privacyLink:'Política de privacidade', wipe:'Apagar meus dados',
+      todayLbl:'Hoje: {0} / {1} min', streak1:'🔥 Sequência: {0} dia', streakN:'🔥 Sequência: {0} dias', streak0:'Comece sua sequência hoje',
+      goalBtn:'Meta: {0} min', goalPrompt:'Meta diária em minutos (1 a 240):', goalDone:'Meta de hoje cumprida! 🔥',
+      resumeLbl:'▶ Continuar: {0}', resumeAt:' · em {0}', resuming:'Continuando em {0}',
+      videoDefault:'Vídeo {0}', lastVideo:'É o último vídeo', firstVideo:'É o primeiro',
+      notValid:'Esse link não parece ser do YouTube.', already:'Já está na lista.', added:'Adicionado',
+      playFirst:'Reproduza um vídeo primeiro.', writeSomething:'Escreva algo na nota.', maxNotes:'Máximo de 100 notas por vídeo.', noteSaved:'Nota salva',
+      ytError:'Este vídeo não pode ser reproduzido aqui. Tente o próximo.',
+      emptyList:'Esta lista está vazia. Escolha uma rota ou cole um link do YouTube acima.',
+      watched:'✓ Assistido', noteOne:'nota', noteMany:'notas', seenOf:'{0} de {1} assistidos',
+      defaultList:'Minha lista', newListPrompt:'Nome da nova lista:', renamePrompt:'Novo nome:',
+      descPrompt:'Descrição da lista (para que serve, a quem ajuda, em que ordem assistir):',
+      confirmDelete:'Excluir a lista «{0}»?', linkCopied:'Link copiado', copyPrompt:'Copie este link:', emptyShare:'A lista está vazia.',
+      confirmWipe:'Apagar todas as suas listas, notas e progresso deste dispositivo?', wiped:'Dados apagados',
+      importQ:'Importar a lista «{0}» com {1} vídeo(s)?', sharedListName:'Lista compartilhada',
+      payNotCfg:'O pagamento ainda não está configurado.', writeCode:'Digite seu código.', activateNotCfg:'A ativação ainda não está configurada.',
+      premiumOn:'Premium ativado! Sem anúncios.', badCode:'Código inválido.', verifyFail:'Não foi possível verificar. Tente novamente.',
+      apiFail:'Não foi possível carregar o reprodutor. Verifique sua conexão.',
+      sharedAdded:'Adicionado do YouTube', sharedBad:'Não encontrei um link do YouTube no que você compartilhou.',
+      moveUp:'Subir', moveDown:'Descer', removeAria:'Remover da lista', markSeen:'Marcar como assistido', markUnseen:'Marcar como não assistido',
+      goMin:'Ir para o minuto {0}', delNote:'Apagar nota'
+    }
+  };
+  var LANG = 'es';
+  try{
+    var sl = localStorage.getItem(LKEY);
+    LANG = (sl === 'pt' || sl === 'es') ? sl : (/^pt/i.test(navigator.language || '') ? 'pt' : 'es');
+  }catch(e){}
+  function t(key){
+    var s = (I18N[LANG] && I18N[LANG][key]); if(s === undefined) s = I18N.es[key]; if(s === undefined) s = key;
+    var a = arguments;
+    return s.replace(/\{(\d)\}/g, function(m, i){ return a[+i + 1] !== undefined ? a[+i + 1] : m; });
+  }
+  function tr(o){ return (o && (o[LANG] || o.es)) || ''; }
 
   /* ---------- Estado (solo en el dispositivo) ---------- */
   function uid(){ return Math.random().toString(36).slice(2, 10); }
   function fresh(){
-    return { lists:[{ id:uid(), name:'Mi lista', description:'', items:[] }], current:0, notes:{}, watched:{} };
+    return {
+      lists:[{ id:uid(), name:t('defaultList'), description:'', items:[] }], current:0, notes:{}, watched:{},
+      pos:{}, last:null, habit:{ goal:10, date:'', secs:0, streak:0, last:'' }
+    };
   }
   function load(){
     try{
@@ -224,6 +383,10 @@
       if(s && Array.isArray(s.lists) && s.lists.length){
         s.notes = (s.notes && typeof s.notes === 'object') ? s.notes : {};
         s.watched = (s.watched && typeof s.watched === 'object') ? s.watched : {};
+        s.pos = (s.pos && typeof s.pos === 'object') ? s.pos : {};
+        s.last = (s.last && typeof s.last === 'object') ? s.last : null;
+        var h = (s.habit && typeof s.habit === 'object') ? s.habit : {};
+        s.habit = { goal:+h.goal || 10, date:h.date || '', secs:+h.secs || 0, streak:+h.streak || 0, last:h.last || '' };
         s.lists.forEach(function(l){ if(typeof l.description !== 'string') l.description = ''; });
         return s;
       }
@@ -241,8 +404,8 @@
   var $ = function(id){ return document.getElementById(id); };
   var toastTimer;
   function toast(msg){
-    var t = $('toast'); t.textContent = msg; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+    var el = $('toast'); el.textContent = msg; el.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2800);
   }
   function fmt(s){
     s = Math.max(0, Math.floor(s));
@@ -268,14 +431,38 @@
     var l = state.lists[playing.list];
     return (l && l.items[playing.index]) || null;
   }
+  function pad(n){ return String(n).padStart(2, '0'); }
+  function dstr(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+
+  /* ---------- Aplicar idioma ---------- */
+  function applyLang(){
+    document.documentElement.lang = LANG;
+    var i, els;
+    els = document.querySelectorAll('[data-i18n]');
+    for(i = 0; i < els.length; i++) els[i].textContent = t(els[i].getAttribute('data-i18n'));
+    els = document.querySelectorAll('[data-i18n-ph]');
+    for(i = 0; i < els.length; i++) els[i].setAttribute('placeholder', t(els[i].getAttribute('data-i18n-ph')));
+    els = document.querySelectorAll('[data-i18n-aria]');
+    for(i = 0; i < els.length; i++) els[i].setAttribute('aria-label', t(els[i].getAttribute('data-i18n-aria')));
+    $('langEs').className = LANG === 'es' ? 'on' : '';
+    $('langPt').className = LANG === 'pt' ? 'on' : '';
+    $('adFrame').setAttribute('title', t('adLabel'));
+  }
+  function setLang(l){
+    LANG = l;
+    try{ localStorage.setItem(LKEY, l); }catch(e){}
+    applyLang(); renderAll();
+  }
+  $('langEs').addEventListener('click', function(){ setLang('es'); });
+  $('langPt').addEventListener('click', function(){ setLang('pt'); });
 
   /* ---------- Reproductor oficial (IFrame API) ---------- */
-  var player = null, ready = false, pendingId = null;
+  var player = null, ready = false, pendingLoad = null;
 
   function loadApi(){
     var s = document.createElement('script');
     s.src = 'https://www.youtube.com/iframe_api';
-    s.onerror = function(){ $('placeholder').textContent = 'No se pudo cargar el reproductor. Revisa tu conexión.'; };
+    s.onerror = function(){ $('placeholder').textContent = t('apiFail'); };
     document.head.appendChild(s);
   }
   window.onYouTubeIframeAPIReady = function(){
@@ -285,55 +472,70 @@
       events:{
         onReady:function(){
           ready = true;
-          if(pendingId){ player.loadVideoById(pendingId); pendingId = null; }
+          if(pendingLoad){ player.loadVideoById(pendingLoad); pendingLoad = null; }
         },
         onStateChange:function(e){
           if(e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.CUED){
             try{
               var d = player.getVideoData();
-              if(d && d.video_id && d.title){ titles[d.video_id] = d.title; renderNow(); renderTracks(); }
+              if(d && d.video_id && d.title){ titles[d.video_id] = d.title; renderNow(); renderTracks(); renderResume(); }
             }catch(_){}
           }
           if(e.data === YT.PlayerState.ENDED){
             var id = currentId();
-            if(id){ state.watched[id] = 1; save(); renderTracks(); renderProgress(); }
+            if(id){ state.watched[id] = 1; delete state.pos[id]; save(); renderTracks(); renderProgress(); renderRoutes(); }
             step(1, true);
           }
         },
-        onError:function(){
-          toast('Este vídeo no se puede reproducir aquí. Prueba con el siguiente.');
-        }
+        onError:function(){ toast(t('ytError')); }
       }
     });
   };
 
+  // Guardar el minuto exacto para poder continuar después.
+  function savePos(){
+    try{
+      var id = currentId();
+      if(ready && player && player.getCurrentTime && id){
+        var p = Math.floor(player.getCurrentTime());
+        if(p > 0) state.pos[id] = p;
+        save();
+      }
+    }catch(_){}
+  }
   // Reproducción SOLO en primer plano: si la app deja de verse, se pausa.
   function pauseIfHidden(){
     if(document.hidden && ready && player && player.pauseVideo){
+      savePos();
       try{ player.pauseVideo(); }catch(e){}
     }
   }
   document.addEventListener('visibilitychange', pauseIfHidden);
   window.addEventListener('pagehide', function(){
-    if(ready && player && player.pauseVideo){ try{ player.pauseVideo(); }catch(e){} }
+    if(ready && player && player.pauseVideo){ savePos(); try{ player.pauseVideo(); }catch(e){} }
   });
 
   function playAt(li, i){
     var list = state.lists[li];
     if(!list || !list.items[i]) return;
+    savePos();
     playing = { list:li, index:i };
     var id = list.items[i];
+    state.last = { listId:list.id, id:id }; save();
+    var start = (state.pos[id] > 5 && !state.watched[id]) ? state.pos[id] : 0;
+    var req = start ? { videoId:id, startSeconds:start } : { videoId:id };
     $('placeholder').style.display = 'none';
     closeNoteForm();
-    if(ready){ player.loadVideoById(id); } else { pendingId = id; }
-    renderNow(); renderTracks(); renderNotes(); updateNav();
+    if(ready){ player.loadVideoById(req); } else { pendingLoad = req; }
+    if(start) toast(t('resuming', fmt(start)));
+    renderNow(); renderTracks(); renderNotes(); renderResume(); updateNav();
   }
   function step(dir, auto){
     if(playing.list < 0) return;
     var list = state.lists[playing.list];
     if(!list) return;
     var n = playing.index + dir;
-    if(n < 0 || n >= list.items.length){ if(auto) return; toast(dir>0 ? 'Es el último vídeo' : 'Es el primero'); return; }
+    if(n < 0 || n >= list.items.length){ if(auto) return; toast(t(dir > 0 ? 'lastVideo' : 'firstVideo')); return; }
     playAt(playing.list, n);
   }
   function updateNav(){
@@ -348,19 +550,160 @@
     titles[id] = null;
     fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + id))
       .then(function(r){ if(!r.ok) throw 0; return r.json(); })
-      .then(function(j){ if(j && j.title){ titles[id] = j.title; renderTracks(); renderNow(); } })
+      .then(function(j){ if(j && j.title){ titles[id] = j.title; renderTracks(); renderNow(); renderResume(); } })
       .catch(function(){});
   }
-  function labelOf(id){ return titles[id] || ('Vídeo ' + id); }
+  function labelOf(id){ return titles[id] || t('videoDefault', id); }
+
+  /* ---------- Hábito: minutos de hoy, racha y meta ---------- */
+  function rollover(){
+    var today = dstr(new Date());
+    if(state.habit.date !== today){ state.habit.date = today; state.habit.secs = 0; }
+  }
+  function addSecs(n){
+    rollover();
+    var h = state.habit, goal = h.goal * 60, before = h.secs;
+    h.secs += n;
+    if(before < goal && h.secs >= goal){
+      var now = new Date(), today = dstr(now), y = new Date(now); y.setDate(y.getDate() - 1);
+      if(h.last === dstr(y)) h.streak += 1;
+      else if(h.last !== today) h.streak = 1;
+      h.last = today;
+      toast(t('goalDone'));
+    }
+  }
+  function streakNow(){
+    var h = state.habit, now = new Date(), y = new Date(now); y.setDate(y.getDate() - 1);
+    return (h.last === dstr(now) || h.last === dstr(y)) ? h.streak : 0;
+  }
+  function renderHabit(){
+    rollover();
+    var h = state.habit, mins = Math.floor(h.secs / 60), pct = Math.min(100, h.secs / (h.goal * 60) * 100);
+    $('habToday').textContent = t('todayLbl', mins, h.goal);
+    var s = streakNow();
+    $('habStreak').textContent = s > 0 ? t(s === 1 ? 'streak1' : 'streakN', s) : t('streak0');
+    $('habBar').style.width = pct + '%';
+    $('habGoal').textContent = t('goalBtn', h.goal);
+  }
+  $('habGoal').addEventListener('click', function(){
+    var v = prompt(t('goalPrompt'), String(state.habit.goal));
+    if(v === null) return;
+    var n = Math.round(parseFloat(v));
+    if(!(n >= 1 && n <= 240)) return;
+    state.habit.goal = n; save(); renderHabit();
+  });
+  // Cada 5 s de reproducción real y en primer plano se suma al tiempo de hoy.
+  setInterval(function(){
+    if(!ready || !player || document.hidden) return;
+    try{
+      if(player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING){
+        addSecs(5);
+        var id = currentId();
+        if(id){
+          var p = Math.floor(player.getCurrentTime());
+          if(p > 0) state.pos[id] = p;
+          var l = state.lists[playing.list];
+          if(l) state.last = { listId:l.id, id:id };
+        }
+        save(); renderHabit(); renderResume();
+      }
+    }catch(_){}
+  }, 5000);
+
+  // Botón "Continuar" con lo último que viste.
+  function findLast(){
+    var L = state.last; if(!L) return null;
+    for(var i = 0; i < state.lists.length; i++){
+      if(state.lists[i].id === L.listId){
+        var k = state.lists[i].items.indexOf(L.id);
+        if(k !== -1) return { li:i, idx:k, id:L.id };
+      }
+    }
+    return null;
+  }
+  function renderResume(){
+    var f = findLast(), box = $('resume');
+    if(!f || (playing.list >= 0 && currentId() === f.id)){ box.hidden = true; return; }
+    var txt = t('resumeLbl', labelOf(f.id));
+    if(state.pos[f.id] > 5 && !state.watched[f.id]) txt += t('resumeAt', fmt(state.pos[f.id]));
+    $('resumeBtn').textContent = txt;
+    box.hidden = false;
+    fetchTitle(f.id);
+  }
+  $('resumeBtn').addEventListener('click', function(){
+    var f = findLast(); if(!f) return;
+    state.current = f.li; save(); renderAll(); playAt(f.li, f.idx);
+  });
+
+  /* ---------- Rutas ---------- */
+  var routeCat = 'all';
+  var CATS = ['all', 'musica', 'idiomas', 'fitness', 'cocina', 'estudio'];
+  function routeItems(r){
+    var it = r.items;
+    return Array.isArray(it) ? it : ((it && (it[LANG] || it.es)) || []);
+  }
+  function findRouteList(r){
+    for(var i = 0; i < state.lists.length; i++){
+      var l = state.lists[i];
+      if(l.rutaId === r.id && l.rutaLang === LANG) return l;
+    }
+    return null;
+  }
+  function startRoute(r){
+    var items = routeItems(r).filter(function(id){ return ID_RE.test(id); });
+    if(!items.length) return;
+    var list = findRouteList(r), created = false;
+    if(!list){
+      list = { id:uid(), name:tr(r.title), description:tr(r.desc), items:items.slice(), rutaId:r.id, rutaLang:LANG };
+      state.lists.push(list); created = true;
+    }
+    state.current = state.lists.indexOf(list);
+    var idx = 0;
+    for(var i = 0; i < list.items.length; i++){ if(!state.watched[list.items[i]]){ idx = i; break; } }
+    save(); renderAll();
+    if(created) toast(t('routeAdded'));
+    playAt(state.current, idx);
+    try{ $('playerSection').scrollIntoView({ behavior:'smooth', block:'start' }); }catch(_){}
+  }
+  function renderRoutes(){
+    var chips = $('chips'); chips.textContent = '';
+    CATS.forEach(function(c){
+      var b = document.createElement('button');
+      b.className = 'chip' + (c === routeCat ? ' on' : ''); b.type = 'button';
+      b.textContent = t('cat_' + c);
+      b.addEventListener('click', function(){ routeCat = c; renderRoutes(); });
+      chips.appendChild(b);
+    });
+    var box = $('routeList'); box.textContent = '';
+    var rs = (window.VIBRA_RUTAS || []).filter(function(r){ return routeCat === 'all' || r.cat === routeCat; });
+    rs.forEach(function(r){
+      var items = routeItems(r); if(!items.length) return;
+      var ex = findRouteList(r);
+      var card = document.createElement('div'); card.className = 'rcard';
+      var top = document.createElement('div'); top.className = 'rtop'; top.textContent = r.emoji || '🎬';
+      var h = document.createElement('div'); h.className = 'rtitle'; h.textContent = tr(r.title);
+      var d = document.createElement('div'); d.className = 'rdesc'; d.textContent = tr(r.desc);
+      var meta = document.createElement('div'); meta.className = 'rmeta';
+      if(ex){
+        var w = ex.items.filter(function(id){ return state.watched[id]; }).length;
+        meta.textContent = t('routeProgress', w, ex.items.length);
+      } else { meta.textContent = t('routeVideos', items.length); }
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'primary';
+      b.textContent = t(ex ? 'routeContinue' : 'routeStart');
+      b.addEventListener('click', function(){ startRoute(r); });
+      card.appendChild(top); card.appendChild(h); card.appendChild(d); card.appendChild(meta); card.appendChild(b);
+      box.appendChild(card);
+    });
+  }
 
   /* ---------- Notas con marca de tiempo ---------- */
   function openNoteForm(){
     var id = currentId();
-    if(!id){ toast('Reproduce un vídeo primero.'); return; }
-    var t = 0;
-    try{ if(ready && player && player.getCurrentTime) t = Math.floor(player.getCurrentTime()) || 0; }catch(_){}
-    pendingT = t;
-    $('noteTime').textContent = fmt(t);
+    if(!id){ toast(t('playFirst')); return; }
+    var tt = 0;
+    try{ if(ready && player && player.getCurrentTime) tt = Math.floor(player.getCurrentTime()) || 0; }catch(_){}
+    pendingT = tt;
+    $('noteTime').textContent = fmt(tt);
     $('noteText').value = '';
     $('noteForm').hidden = false;
     $('noteText').focus();
@@ -369,11 +712,11 @@
   function saveNote(){
     var id = currentId(); if(!id) return;
     var text = $('noteText').value.trim().slice(0, 500);
-    if(!text){ toast('Escribe algo en la nota.'); return; }
+    if(!text){ toast(t('writeSomething')); return; }
     var arr = state.notes[id] = state.notes[id] || [];
-    if(arr.length >= 100){ toast('Máximo 100 notas por vídeo.'); return; }
+    if(arr.length >= 100){ toast(t('maxNotes')); return; }
     arr.push({ t:pendingT, text:text });
-    save(); closeNoteForm(); renderNotes(); toast('Nota guardada');
+    save(); closeNoteForm(); renderNotes(); renderTracks(); toast(t('noteSaved'));
   }
   function renderNotes(){
     var id = currentId(), box = $('notesList');
@@ -381,20 +724,18 @@
     $('addNote').disabled = !id;
     var li, arr;
     if(!id){
-      li = document.createElement('li'); li.className = 'muted';
-      li.textContent = 'Reproduce un vídeo para añadir notas en el minuto que quieras.';
+      li = document.createElement('li'); li.className = 'muted'; li.textContent = t('notesNone');
       box.appendChild(li); return;
     }
     arr = (state.notes[id] || []).slice().sort(function(a, b){ return a.t - b.t; });
     if(!arr.length){
-      li = document.createElement('li'); li.className = 'muted';
-      li.textContent = 'Aún no hay notas en este vídeo.';
+      li = document.createElement('li'); li.className = 'muted'; li.textContent = t('notesEmpty');
       box.appendChild(li); return;
     }
     arr.forEach(function(n){
       var item = document.createElement('li'); item.className = 'note';
       var time = document.createElement('button'); time.className = 'time'; time.textContent = fmt(n.t);
-      time.setAttribute('aria-label', 'Ir al minuto ' + fmt(n.t));
+      time.setAttribute('aria-label', t('goMin', fmt(n.t)));
       time.addEventListener('click', function(){
         if(ready && player && player.seekTo){
           try{ player.seekTo(n.t, true); player.playVideo(); }catch(_){}
@@ -402,12 +743,12 @@
       });
       var txt = document.createElement('div'); txt.className = 'txt'; txt.textContent = n.text;
       var x = document.createElement('button'); x.className = 'x'; x.textContent = '✕';
-      x.setAttribute('aria-label', 'Borrar nota');
+      x.setAttribute('aria-label', t('delNote'));
       x.addEventListener('click', function(){
         var all = state.notes[id] || [], k = all.indexOf(n);
         if(k !== -1) all.splice(k, 1);
         if(!all.length) delete state.notes[id];
-        save(); renderNotes();
+        save(); renderNotes(); renderTracks();
       });
       item.appendChild(time); item.appendChild(txt); item.appendChild(x);
       box.appendChild(item);
@@ -436,7 +777,7 @@
     if(!n) return;
     var w = list.items.filter(function(id){ return state.watched[id]; }).length;
     var pct = Math.round(w / n * 100);
-    $('progText').textContent = w + ' de ' + n + ' vistos';
+    $('progText').textContent = t('seenOf', w, n);
     $('progPct').textContent = pct + '%';
     $('progBar').style.width = pct + '%';
   }
@@ -452,7 +793,7 @@
   }
   function actBtn(label, aria, fn, on){
     var b = document.createElement('button');
-    b.textContent = label; b.setAttribute('aria-label', aria);
+    b.textContent = label; b.setAttribute('aria-label', aria); b.type = 'button';
     if(on) b.className = 'on';
     b.addEventListener('click', function(ev){ ev.stopPropagation(); fn(); });
     return b;
@@ -461,8 +802,7 @@
     var ul = $('tracks'); ul.textContent = '';
     var list = cur();
     if(!list.items.length){
-      var e = document.createElement('li'); e.className = 'empty';
-      e.textContent = 'Esta lista está vacía. Pega un enlace de YouTube arriba para empezar.';
+      var e = document.createElement('li'); e.className = 'empty'; e.textContent = t('emptyList');
       ul.appendChild(e); return;
     }
     list.items.forEach(function(id, i){
@@ -473,22 +813,22 @@
         (playing.list === state.current && playing.index === i ? ' active' : '');
       var img = document.createElement('img');
       img.src = 'https://i.ytimg.com/vi/' + id + '/mqdefault.jpg'; img.alt = ''; img.loading = 'lazy';
-      var t = document.createElement('div'); t.className = 't';
+      var tt = document.createElement('div'); tt.className = 't';
       var ttl = document.createElement('div'); ttl.className = 'ttl'; ttl.textContent = (i + 1) + '. ' + labelOf(id);
-      t.appendChild(ttl);
+      tt.appendChild(ttl);
       var nn = (state.notes[id] || []).length;
       if(done || nn){
         var meta = document.createElement('div'); meta.className = 'meta';
-        if(done){ var ok = document.createElement('span'); ok.className = 'ok'; ok.textContent = '✓ Visto'; meta.appendChild(ok); }
-        if(nn){ meta.appendChild(document.createTextNode((done ? ' · ' : '') + nn + (nn === 1 ? ' nota' : ' notas'))); }
-        t.appendChild(meta);
+        if(done){ var ok = document.createElement('span'); ok.className = 'ok'; ok.textContent = t('watched'); meta.appendChild(ok); }
+        if(nn){ meta.appendChild(document.createTextNode((done ? ' · ' : '') + nn + ' ' + t(nn === 1 ? 'noteOne' : 'noteMany'))); }
+        tt.appendChild(meta);
       }
       var acts = document.createElement('div'); acts.className = 'acts';
-      acts.appendChild(actBtn('✓', done ? 'Marcar como no visto' : 'Marcar como visto', function(){
+      acts.appendChild(actBtn('✓', t(done ? 'markUnseen' : 'markSeen'), function(){
         if(state.watched[id]) delete state.watched[id]; else state.watched[id] = 1;
-        save(); renderTracks(); renderProgress();
+        save(); renderTracks(); renderProgress(); renderRoutes();
       }, done));
-      acts.appendChild(actBtn('✕', 'Quitar de la lista', function(){
+      acts.appendChild(actBtn('✕', t('removeAria'), function(){
         list.items.splice(i, 1);
         if(playing.list === state.current){
           if(i < playing.index) playing.index--;
@@ -496,29 +836,35 @@
         }
         save(); renderAll();
       }));
-      acts.appendChild(actBtn('↑', 'Subir', function(){ move(i, -1); }));
-      acts.appendChild(actBtn('↓', 'Bajar', function(){ move(i, 1); }));
+      acts.appendChild(actBtn('↑', t('moveUp'), function(){ move(i, -1); }));
+      acts.appendChild(actBtn('↓', t('moveDown'), function(){ move(i, 1); }));
       li.addEventListener('click', function(){ playAt(state.current, i); });
-      li.appendChild(img); li.appendChild(t); li.appendChild(acts);
+      li.appendChild(img); li.appendChild(tt); li.appendChild(acts);
       ul.appendChild(li);
     });
   }
   function renderNow(){
-    var el = $('nowplaying');
-    var id = currentId();
-    el.textContent = id ? labelOf(id) : '';
+    var id = currentId(), a = $('ytLink');
+    $('npTitle').textContent = id ? labelOf(id) : '';
+    if(id){ a.href = 'https://www.youtube.com/watch?v=' + id; a.hidden = false; } else { a.hidden = true; }
   }
-  function renderAll(){ renderSelect(); renderDesc(); renderProgress(); renderTracks(); renderNow(); renderNotes(); updateNav(); renderAds(); }
+  function renderAll(){
+    renderHabit(); renderResume(); renderRoutes(); renderSelect(); renderDesc(); renderProgress();
+    renderTracks(); renderNow(); renderNotes(); updateNav(); renderAds();
+  }
 
   /* ---------- Acciones ---------- */
+  function addVideoToCurrent(id){
+    var list = cur();
+    if(list.items.indexOf(id) !== -1) return false;
+    list.items.push(id); save(); return true;
+  }
   $('addForm').addEventListener('submit', function(e){
     e.preventDefault();
     var input = $('url'), id = parseId(input.value);
-    if(!id){ toast('Ese enlace no parece de YouTube.'); return; }
-    var list = cur();
-    if(list.items.indexOf(id) !== -1){ toast('Ya está en la lista.'); return; }
-    list.items.push(id); save(); input.value = '';
-    renderAll(); toast('Añadido');
+    if(!id){ toast(t('notValid')); return; }
+    if(!addVideoToCurrent(id)){ toast(t('already')); return; }
+    input.value = ''; renderAll(); toast(t('added'));
   });
   $('prev').addEventListener('click', function(){ step(-1); });
   $('next').addEventListener('click', function(){ step(1); });
@@ -529,22 +875,22 @@
     state.current = +e.target.value; save(); renderDesc(); renderProgress(); renderTracks();
   });
   $('newList').addEventListener('click', function(){
-    var n = prompt('Nombre de la nueva lista:'); if(!n) return;
+    var n = prompt(t('newListPrompt')); if(!n) return;
     state.lists.push({ id:uid(), name:n.trim().slice(0,40) || 'Lista', description:'', items:[] });
     state.current = state.lists.length - 1; save(); renderAll();
   });
   $('renameList').addEventListener('click', function(){
-    var n = prompt('Nuevo nombre:', cur().name); if(!n) return;
+    var n = prompt(t('renamePrompt'), cur().name); if(!n) return;
     cur().name = n.trim().slice(0,40) || cur().name; save(); renderSelect();
   });
   $('descList').addEventListener('click', function(){
-    var d = prompt('Descripción de la lista (para qué sirve, a quién ayuda, en qué orden verla):', cur().description || '');
+    var d = prompt(t('descPrompt'), cur().description || '');
     if(d === null) return;
     cur().description = d.trim().slice(0, 200); save(); renderDesc();
   });
   $('deleteList').addEventListener('click', function(){
     if(state.lists.length <= 1) return;
-    if(!confirm('¿Eliminar la lista «' + cur().name + '»?')) return;
+    if(!confirm(t('confirmDelete', cur().name))) return;
     var removed = state.current;
     state.lists.splice(removed, 1);
     if(playing.list === removed) playing = { list:-1, index:-1 };
@@ -553,23 +899,23 @@
   });
   $('shareList').addEventListener('click', function(){
     var l = cur();
-    if(!l.items.length){ toast('La lista está vacía.'); return; }
-    var link = location.href.split('#')[0] + '#l=' + encodeURIComponent(l.name) + '~' + l.items.join(',') +
+    if(!l.items.length){ toast(t('emptyShare')); return; }
+    var link = location.href.split('#')[0].split('?')[0] + '#l=' + encodeURIComponent(l.name) + '~' + l.items.join(',') +
       (l.description ? '~' + encodeURIComponent(l.description) : '');
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(link).then(function(){ toast('Enlace copiado'); },
-        function(){ prompt('Copia este enlace:', link); });
-    } else { prompt('Copia este enlace:', link); }
+      navigator.clipboard.writeText(link).then(function(){ toast(t('linkCopied')); },
+        function(){ prompt(t('copyPrompt'), link); });
+    } else { prompt(t('copyPrompt'), link); }
   });
   $('wipe').addEventListener('click', function(e){
     e.preventDefault();
-    if(!confirm('¿Borrar todas tus listas, notas y progreso de este dispositivo?')) return;
+    if(!confirm(t('confirmWipe'))) return;
     try{ localStorage.removeItem(KEY); }catch(_){}
     setPremium(false); $('premiumBox').hidden = true;
     state = load(); playing = { list:-1, index:-1 };
     if(ready && player) try{ player.stopVideo(); }catch(_){}
     closeNoteForm();
-    $('placeholder').style.display = ''; renderAll(); toast('Datos borrados');
+    $('placeholder').style.display = ''; renderAll(); toast(t('wiped'));
   });
 
   /* ---------- Publicidad (solo banners) y Premium ---------- */
@@ -599,13 +945,13 @@
   });
   $('premiumClose').addEventListener('click', function(){ $('premiumBox').hidden = true; });
   $('payBtn').addEventListener('click', function(){
-    if(!CFG.checkoutUrl){ toast('El pago aún no está configurado.'); return; }
+    if(!CFG.checkoutUrl){ toast(t('payNotCfg')); return; }
     window.open(CFG.checkoutUrl, '_blank', 'noopener');
   });
   $('activateBtn').addEventListener('click', function(){
     var code = $('premiumCode').value.trim().slice(0, 100);
-    if(!code){ toast('Escribe tu código.'); return; }
-    if(!CFG.verifyUrl){ toast('La activación aún no está configurada.'); return; }
+    if(!code){ toast(t('writeCode')); return; }
+    if(!CFG.verifyUrl){ toast(t('activateNotCfg')); return; }
     var btn = $('activateBtn'); btn.disabled = true;
     var ctl = ('AbortController' in window) ? new AbortController() : null;
     var to = setTimeout(function(){ if(ctl) ctl.abort(); }, 15000);
@@ -615,31 +961,57 @@
       .then(function(j){
         if(j && j.valid === true){
           setPremium(true); $('premiumBox').hidden = true; $('premiumCode').value = '';
-          renderAds(); toast('¡Premium activado! Sin anuncios.');
-        } else { toast('Código no válido.'); }
+          renderAds(); toast(t('premiumOn'));
+        } else { toast(t('badCode')); }
       })
-      .catch(function(){ toast('No se pudo verificar. Intenta de nuevo.'); })
+      .catch(function(){ toast(t('verifyFail')); })
       .then(function(){ clearTimeout(to); btn.disabled = false; });
   });
 
-  /* ---------- Importar lista compartida ---------- */
+  /* ---------- Importar lista compartida (enlace #l=...) ---------- */
   function importFromHash(){
     var m = location.hash.match(/^#l=([^~]*)~([^~]+)(?:~(.*))?$/);
     if(!m) return;
-    var name = 'Lista compartida', desc = '';
+    var name = t('sharedListName'), desc = '';
     try{ name = decodeURIComponent(m[1]).slice(0,40) || name; }catch(_){}
     try{ desc = decodeURIComponent(m[3] || '').slice(0,200); }catch(_){}
     var ids = m[2].split(',').filter(function(x){ return ID_RE.test(x); }).slice(0,200);
     history.replaceState(null, '', location.href.split('#')[0]);
     if(!ids.length) return;
-    if(!confirm('¿Importar la lista «' + name + '» con ' + ids.length + ' vídeo(s)?')) return;
+    if(!confirm(t('importQ', name, ids.length))) return;
     state.lists.push({ id:uid(), name:name, description:desc, items:ids });
     state.current = state.lists.length - 1; save();
   }
 
+  /* ---------- Recibir un vídeo con "Compartir" desde YouTube (Android, app instalada) ---------- */
+  function handleShareTarget(){
+    var q;
+    try{ q = new URLSearchParams(location.search); }catch(_){ return; }
+    if(!(q.has('url') || q.has('text') || q.has('title'))) return;
+    var cands = [q.get('url') || '', q.get('text') || '', q.get('title') || ''], id = null;
+    cands.forEach(function(c){
+      if(id) return;
+      id = parseId(c);
+      if(!id){
+        var links = c.match(/https?:\/\/[^\s]+/g) || [];
+        for(var i = 0; i < links.length && !id; i++) id = parseId(links[i]);
+      }
+    });
+    try{ history.replaceState(null, '', location.href.split('?')[0].split('#')[0]); }catch(_){}
+    if(!id){ setTimeout(function(){ toast(t('sharedBad')); }, 300); return; }
+    var isNew = addVideoToCurrent(id);
+    setTimeout(function(){ toast(isNew ? t('sharedAdded') : t('already')); }, 300);
+  }
+
+  /* ---------- Arranque ---------- */
+  applyLang();
   importFromHash();
+  handleShareTarget();
   renderAll();
   loadApi();
+  if('serviceWorker' in navigator && location.protocol === 'https:'){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
 })();
 </script>
 </body>
